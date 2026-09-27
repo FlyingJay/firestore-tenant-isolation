@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function allowed(t, app, action) {
+      let idx = get(/databases/$(db)/documents/access_index/$(request.auth.uid)).data;
+      return idx.status == 'active'
+        && t in idx.tenants
+        && action in idx.permissions.get(t, {}).get(app, []);
+    }
+    match /{doc=**} {
+      allow read: if allowed(resource.data.tenantId, resource.data.appId, 'read');
+      allow create: if doc[0] != 'access_index'
+        && allowed(request.resource.data.tenantId, request.resource.data.appId, 'create')
+        && request.resource.id.matches(request.resource.data.tenantId + '__.+');
+      allow update: if allowed(resource.data.tenantId, resource.data.appId, 'update')
+        && request.resource.data.tenantId == resource.data.tenantId
+        && request.resource.data.appId == resource.data.appId;
+      allow delete: if allowed(resource.data.tenantId, resource.data.appId, 'delete');
+    }
+  }
+}

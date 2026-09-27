@@ -1,0 +1,17 @@
+{
+  "name": "firestore-tenant-isolation",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "test": "firebase emulators:exec --project demo-tenant-isolation --only firestore,storage \"node --test test/*.test.ts\""
+  },
+  "devDependencies": {
+    "@firebase/firestore": "^4.17.2",
+    "@firebase/rules-unit-testing": "^5.0.2",
+    "firebase": "^12.19.0",
+    "firebase-tools": "^15.31.0"
+  }
+}
