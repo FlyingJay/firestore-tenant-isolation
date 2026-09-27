@@ -1,6 +1,6 @@
 # Firestore tenant isolation
 
-Runnable rules, shim, and tests for *Don't Teach Agents. Constrain Them.*
+Runnable rules, shim, and tests for [*Don't Teach Agents. Constrain Them.*](https://flyingjay.medium.com/dont-teach-agents-constrain-them-bc2f3687d442)
 
 The article argues that a tenant boundary should hold whatever the client code does. This repo checks that claim against the Firestore and Storage emulators: every test in `firestore-*.test.ts` and `storage.test.ts` uses the raw SDK, no shim.
 
